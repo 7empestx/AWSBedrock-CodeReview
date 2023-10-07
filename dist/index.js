@@ -1,60 +1,6 @@
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 4822:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-// @ts-ignore
-const core = __importStar(__nccwpck_require__(6604));
-// @ts-ignore
-const project = __importStar(__nccwpck_require__(855));
-// @ts-ignore
-const space = __importStar(__nccwpck_require__(1006));
-try {
-    // Get inputs from the action
-    const input_WhoToGreet = core.getInput('WhoToGreet'); // Who are we greeting here
-    console.log(input_WhoToGreet);
-    const input_HowToGreet = core.getInput('HowToGreet'); // How to greet the person
-    console.log(input_HowToGreet);
-    // Interact with CodeCatalyst entities
-    console.log(`Current CodeCatalyst space ${space.getSpace().name}`);
-    console.log(`Current CodeCatalyst project ${project.getProject().name}`);
-    // Action Code start
-    // Set outputs of the action
-}
-catch (error) {
-    core.setFailed(`Action Failed, reason: ${error}`);
-}
-
-
-/***/ }),
-
 /***/ 5063:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
@@ -7764,6 +7710,60 @@ function wrappy (fn, cb) {
 
 /***/ }),
 
+/***/ 6144:
+/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+
+"use strict";
+
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+// @ts-ignore
+const core = __importStar(__nccwpck_require__(6604));
+// @ts-ignore
+const project = __importStar(__nccwpck_require__(855));
+// @ts-ignore
+const space = __importStar(__nccwpck_require__(1006));
+try {
+    // Get inputs from the action
+    const input_WhoToGreet = core.getInput('WhoToGreet'); // Who are we greeting here
+    console.log(input_WhoToGreet);
+    const input_HowToGreet = core.getInput('HowToGreet'); // How to greet the person
+    console.log(input_HowToGreet);
+    // Interact with CodeCatalyst entities
+    console.log(`Current CodeCatalyst space ${space.getSpace().name}`);
+    console.log(`Current CodeCatalyst project ${project.getProject().name}`);
+    // Action Code start
+    // Set outputs of the action
+}
+catch (error) {
+    core.setFailed(`Action Failed, reason: ${error}`);
+}
+
+
+/***/ }),
+
 /***/ 9491:
 /***/ ((module) => {
 
@@ -7874,7 +7874,7 @@ module.exports = require("util");
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __nccwpck_require__(4822);
+/******/ 	var __webpack_exports__ = __nccwpck_require__(6144);
 /******/ 	module.exports = __webpack_exports__;
 /******/ 	
 /******/ })()
