@@ -7,20 +7,73 @@ import * as runSummaries from '@aws/codecatalyst-run-summaries';
 // @ts-ignore
 import * as space from '@aws/codecatalyst-space';
 
-try {
-    // Get inputs from the action
-    const input_WhoToGreet = core.getInput('WhoToGreet'); // Who are we greeting here
-    console.log(input_WhoToGreet);
-    const input_HowToGreet = core.getInput('HowToGreet'); // How to greet the person
-    console.log(input_HowToGreet);
+import {
+    BedrockRuntimeClient,
+    InvokeModelWithResponseStreamCommand,
+} from '@aws-sdk/client-bedrock-runtime';
 
-    // Interact with CodeCatalyst entities
-    console.log(`Current CodeCatalyst space ${space.getSpace().name}`);
-    console.log(`Current CodeCatalyst project ${project.getProject().name}`);
+const generatePrompt = () => {
+    return '\n\nHuman: Hello world\n\nAssistant:';
+};
 
-    // Action Code start
+const client = new BedrockRuntimeClient({ region: 'us-west-2' });
 
-    // Set outputs of the action
-} catch (error) {
-    core.setFailed(`Action Failed, reason: ${error}`);
-}
+const input = {
+    modelId: 'anthropic.claude-v2',
+    contentType: 'application/json',
+    accept: '*/*',
+    body: JSON.stringify({
+        prompt: generatePrompt(),
+        max_tokens_to_sample: 300,
+        temperature: 0.5,
+        top_k: 250,
+        top_p: 1,
+        stop_sequences: ['\\n\\nHuman:'],
+    }),
+};
+
+const readStream = async (stream: AsyncIterable<any>): Promise<string> => {
+    let data = '';
+    for await (const chunk of stream) {
+        if (chunk && chunk.chunk && chunk.chunk.bytes) {
+            data += String.fromCharCode(...chunk.chunk.bytes);
+        }
+    }
+    return data;
+};
+
+(async () => {
+    try {
+        const command = new InvokeModelWithResponseStreamCommand(input);
+        const response = await client.send(command);
+
+        if (response.body) {
+            // Read the body stream
+            const responseBody = await readStream(response.body);
+            console.log('Raw Response Body:', responseBody);
+
+            // Split the response by '}{' to handle concatenated JSON strings
+            const jsonStrings = responseBody.split('}{').map((str, index, array) => {
+                if (index === 0) return str + '}';
+                if (index === array.length - 1) return '{' + str;
+                return '{' + str + '}';
+            });
+
+            jsonStrings.forEach(jsonStr => {
+                try {
+                    const parsedResponse = JSON.parse(jsonStr);
+                    console.log('Parsed Response:', parsedResponse);
+                } catch (parseError) {
+                    console.error('Error parsing JSON string:', jsonStr, 'Error:', parseError);
+                }
+            });
+        } else {
+            console.error('Response body is undefined');
+        }
+    } catch (error) {
+        console.error(error);
+        core.setFailed(`Action Failed, reason: ${error}`);
+    }
+})().catch(error => {
+    console.error('Unhandled error:', error);
+});
