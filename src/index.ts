@@ -12,8 +12,12 @@ import {
     InvokeModelWithResponseStreamCommand,
 } from '@aws-sdk/client-bedrock-runtime';
 
-const generatePrompt = () => {
-    return '\n\nHuman: Hello world\n\nAssistant:';
+const { execSync } = require('child_process');
+
+const changes = execSync('git diff origin/main').toString();
+
+const generatePrompt = (code: string) => {
+    return `\n\nHuman: Review this code: ${code}\n\nAssistant:`;
 };
 
 const client = new BedrockRuntimeClient({ region: 'us-west-2' });
@@ -23,7 +27,7 @@ const input = {
     contentType: 'application/json',
     accept: '*/*',
     body: JSON.stringify({
-        prompt: generatePrompt(),
+        prompt: generatePrompt(changes),
         max_tokens_to_sample: 300,
         temperature: 0.5,
         top_k: 250,

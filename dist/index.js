@@ -28146,8 +28146,10 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 // @ts-ignore
 const core = __importStar(__nccwpck_require__(96604));
 const client_bedrock_runtime_1 = __nccwpck_require__(99687);
-const generatePrompt = () => {
-    return '\n\nHuman: Hello world\n\nAssistant:';
+const { execSync } = __nccwpck_require__(32081);
+const changes = execSync('git diff origin/main').toString();
+const generatePrompt = (code) => {
+    return `\n\nHuman: Review this code: ${code}\n\nAssistant:`;
 };
 const client = new client_bedrock_runtime_1.BedrockRuntimeClient({ region: 'us-west-2' });
 const input = {
@@ -28155,12 +28157,12 @@ const input = {
     contentType: 'application/json',
     accept: '*/*',
     body: JSON.stringify({
-        prompt: generatePrompt(),
+        prompt: generatePrompt(changes),
         max_tokens_to_sample: 300,
         temperature: 0.5,
         top_k: 250,
         top_p: 1,
-        stop_sequences: ['\\n\\nHuman:']
+        stop_sequences: ['\\n\\nHuman:'],
     }),
 };
 const readStream = (stream) => { var _a, stream_1, stream_1_1; return __awaiter(void 0, void 0, void 0, function* () {
