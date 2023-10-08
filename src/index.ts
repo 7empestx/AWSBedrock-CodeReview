@@ -12,7 +12,7 @@ import {
     InvokeModelWithResponseStreamCommand,
 } from '@aws-sdk/client-bedrock-runtime';
 
-const changes = process.env.DIFF;
+const changes = process.env.DIFF || 'No changes detected'; 
 
 const generatePrompt = (code: string) => {
     return `\n\nHuman: Review this code: ${code}\n\nAssistant:`;
