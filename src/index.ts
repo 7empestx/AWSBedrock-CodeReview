@@ -12,9 +12,7 @@ import {
     InvokeModelWithResponseStreamCommand,
 } from '@aws-sdk/client-bedrock-runtime';
 
-const { execSync } = require('child_process');
-
-const changes = execSync('git diff origin/main').toString();
+const changes = process.env.DIFF;
 
 const generatePrompt = (code: string) => {
     return `\n\nHuman: Review this code: ${code}\n\nAssistant:`;
