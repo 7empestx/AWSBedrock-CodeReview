@@ -7,12 +7,14 @@ import * as runSummaries from '@aws/codecatalyst-run-summaries';
 // @ts-ignore
 import * as space from '@aws/codecatalyst-space';
 
+import * as github from '@actions/github';
+
 import {
     BedrockRuntimeClient,
     InvokeModelWithResponseStreamCommand,
 } from '@aws-sdk/client-bedrock-runtime';
 
-const changes = process.env.DIFF || 'No changes detected'; 
+const changes = process.env.DIFF || 'No changes detected';
 
 const generatePrompt = (code: string) => {
     return `\n\nHuman: Review this code: ${code}\n\nAssistant:`;
@@ -69,8 +71,22 @@ const readStream = async (stream: AsyncIterable<any>): Promise<string> => {
                     console.error('Error parsing JSON string:', jsonStr, 'Error:', parseError);
                 }
             });
-        } else {
-            console.error('Response body is undefined');
+
+            const feedback = 'Test feedback';
+
+            const octokit = github.getOctokit(process.env.GITHUB_TOKEN!);
+            const context = github.context;
+
+            if (context.issue.number) {
+                await octokit.rest.issues.createComment({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    issue_number: context.issue.number,
+                    body: feedback,
+                });
+            } else {
+                console.error('Issue number is undefined');
+            }
         }
     } catch (error) {
         console.error(error);

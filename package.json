@@ -13,6 +13,7 @@
     "start": "npm run bundle && node dist/index.js"
   },
   "dependencies": {
+    "@actions/github": "^5.1.1",
     "@aws-sdk/client-bedrock-runtime": "^3.427.0",
     "@aws/codecatalyst-adk-core": "^1.0.14",
     "@aws/codecatalyst-adk-utils": "^1.0.14",
