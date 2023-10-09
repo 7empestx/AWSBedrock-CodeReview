@@ -11,7 +11,7 @@ import * as github from '@actions/github';
 
 import {
     BedrockRuntimeClient,
-    InvokeModelWithResponseStreamCommand,
+    InvokeModelWithResponseStreamCommand
 } from '@aws-sdk/client-bedrock-runtime';
 
 const changes = process.env.DIFF || 'No changes detected';
@@ -32,8 +32,8 @@ const input = {
         temperature: 0.5,
         top_k: 250,
         top_p: 1,
-        stop_sequences: ['\\n\\nHuman:'],
-    }),
+        stop_sequences: ['\\n\\nHuman:']
+    })
 };
 
 const readStream = async (stream: AsyncIterable<any>): Promise<string> => {
@@ -57,18 +57,25 @@ const readStream = async (stream: AsyncIterable<any>): Promise<string> => {
             console.log('Raw Response Body:', responseBody);
 
             // Split the response by '}{' to handle concatenated JSON strings
-            const jsonStrings = responseBody.split('}{').map((str, index, array) => {
-                if (index === 0) return str + '}';
-                if (index === array.length - 1) return '{' + str;
-                return '{' + str + '}';
-            });
+            const jsonStrings = responseBody
+                .split('}{')
+                .map((str, index, array) => {
+                    if (index === 0) return str + '}';
+                    if (index === array.length - 1) return '{' + str;
+                    return '{' + str + '}';
+                });
 
             jsonStrings.forEach(jsonStr => {
                 try {
                     const parsedResponse = JSON.parse(jsonStr);
                     console.log('Parsed Response:', parsedResponse);
                 } catch (parseError) {
-                    console.error('Error parsing JSON string:', jsonStr, 'Error:', parseError);
+                    console.error(
+                        'Error parsing JSON string:',
+                        jsonStr,
+                        'Error:',
+                        parseError
+                    );
                 }
             });
 
@@ -82,7 +89,7 @@ const readStream = async (stream: AsyncIterable<any>): Promise<string> => {
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     issue_number: context.issue.number,
-                    body: feedback,
+                    body: feedback
                 });
             } else {
                 console.error('Issue number is undefined');
