@@ -8,7 +8,7 @@
 - Example content follows.
 --->
 
-The **AWSBedrock-CodeReview** action This GitHub action performs an automated code review on changes made in a pull request or a push to the main branch. It leverages AWS's Bedrock Runtime and Anthropic's claude-v2 model to analyze the differences and provide feedback.
+The **AWSBedrock-CodeReview** action performs an automated code review on changes made in a pull request or a push to the main branch. It leverages AWS's Bedrock Runtime and Anthropic's claude-v2 model to analyze the differences and provide feedback.
 
 ## Basic example
 
